@@ -1,0 +1,78 @@
+# =============================================================================
+# Triage Engine Configuration
+# =============================================================================
+# Defines urgency categories, escalation rules, and safety overrides.
+#
+# IMPORTANT: This is an academic research prototype.
+# These rules are NOT clinically validated and must NOT be used for
+# real patient care or emergency decision-making.
+# =============================================================================
+
+# --- Urgency Categories ---
+categories:
+  emergency:
+    level: 1
+    label: "Emergency Assessment Required"
+    color: "#DC3545"  # Red
+    description: "Immediate clinical attention recommended based on detected findings."
+  urgent:
+    level: 2
+    label: "Urgent Clinical Assessment Recommended"
+    color: "#FFC107"  # Amber
+    description: "Prompt clinical review recommended based on detected findings."
+  routine:
+    level: 3
+    label: "Routine Clinical Assessment"
+    color: "#28A745"  # Green
+    description: "No urgent findings detected. Standard follow-up recommended."
+
+# --- Confidence Thresholds ---
+thresholds:
+  high_confidence: 0.85   # Model output above this is considered high confidence
+  low_confidence: 0.40    # Model output below this triggers uncertainty warning
+  emergency_threshold: 0.70  # Risk score above this escalates to emergency
+  urgent_threshold: 0.45     # Risk score above this escalates to urgent
+
+# --- Emergency Symptom Overrides ---
+# These symptoms ALWAYS escalate to Emergency regardless of model scores.
+# A low AI risk score must NEVER override an emergency symptom warning.
+emergency_symptoms:
+  - "acute chest pain"
+  - "severe shortness of breath"
+  - "syncope"
+  - "cardiac arrest"
+  - "respiratory failure"
+  - "cyanosis"
+  - "hemoptysis"
+  - "acute arrhythmia"
+  - "st elevation"
+  - "tension pneumothorax"
+  - "pulmonary embolism"
+  - "acute myocardial infarction"
+
+# --- Dangerous Combinations ---
+# Combinations of findings that escalate urgency even if individual scores are low.
+dangerous_combinations:
+  - findings: ["tachycardia", "hypotension"]
+    escalate_to: "emergency"
+    reason: "Possible cardiogenic or hypovolemic shock"
+  - findings: ["fever", "tachypnea", "hypoxia"]
+    escalate_to: "emergency"
+    reason: "Possible severe pneumonia or sepsis"
+  - findings: ["chest pain", "dyspnea"]
+    escalate_to: "urgent"
+    reason: "Possible acute coronary syndrome or pulmonary embolism"
+
+# --- Missing Data Warnings ---
+missing_data:
+  warn_on_missing: true
+  critical_missing_fields:
+    - "vital_signs"
+    - "ecg"
+    - "chest_xray"
+  message: "WARNING: Triage assessment is incomplete due to missing data. Clinical judgement required."
+
+# --- Disclaimers ---
+disclaimers:
+  header: "AI-ASSISTED SCREENING — NOT A CLINICAL DIAGNOSIS"
+  footer: "This system is an academic research prototype. All findings must be reviewed and confirmed by a qualified healthcare professional. Do not use for clinical decision-making."

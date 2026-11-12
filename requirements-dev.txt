@@ -1,0 +1,18 @@
+# Development dependencies (in addition to requirements.txt)
+-r requirements.txt
+
+# Code quality
+black>=23.0
+isort>=5.12
+flake8>=6.0
+
+# Type checking
+mypy>=1.5
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1
+pytest-asyncio>=0.21
+
+# Notebook tools
+nbformat>=5.9

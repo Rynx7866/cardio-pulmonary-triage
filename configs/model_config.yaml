@@ -1,0 +1,91 @@
+# =============================================================================
+# Model Configuration
+# =============================================================================
+# Hyperparameters and settings for all six specialised models.
+# Modify these instead of hardcoding values in source code.
+# =============================================================================
+
+# --- Global Settings ---
+global:
+  seed: 42
+  device: "auto"  # "auto", "cpu", "cuda"
+  mixed_precision: false  # Enable for GPU training with limited VRAM
+
+# --- Model 1: Chest X-Ray (ResNet50) ---
+xray:
+  architecture: "resnet50"
+  pretrained: true  # Use ImageNet pretrained weights
+  num_classes: 14   # NIH ChestX-ray14 labels
+  input_size: 224
+  batch_size: 16    # Small for 4GB VRAM / 8GB RAM
+  learning_rate: 0.0001
+  weight_decay: 0.00001
+  epochs: 25
+  patience: 5       # Early stopping patience
+  dropout: 0.5
+  optimizer: "adam"
+  scheduler: "cosine"
+
+# --- Model 2: ECG (1D CNN) ---
+ecg:
+  architecture: "1d_cnn"
+  num_classes: 5          # PTB-XL superclasses: NORM, MI, STTC, CD, HYP
+  signal_length: 1000     # 10 seconds at 100 Hz
+  sampling_rate: 100      # Hz
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  epochs: 30
+  patience: 7
+  dropout: 0.3
+  optimizer: "adam"
+
+# --- Model 3: Cardiac Risk (XGBoost) ---
+cardiac:
+  algorithm: "xgboost"
+  n_estimators: 200
+  max_depth: 6
+  learning_rate: 0.1
+  subsample: 0.8
+  colsample_bytree: 0.8
+  min_child_weight: 3
+  gamma: 0.1
+  eval_metric: "auc"
+  early_stopping_rounds: 20
+  cv_folds: 5
+
+# --- Model 4: Respiratory Risk (Random Forest) ---
+respiratory:
+  algorithm: "random_forest"
+  n_estimators: 300
+  max_depth: 12
+  min_samples_split: 5
+  min_samples_leaf: 2
+  max_features: "sqrt"
+  class_weight: "balanced"
+  cv_folds: 5
+
+# --- Model 5: Clinical NLP ---
+nlp:
+  model_name: "emilyalsentzer/Bio_ClinicalBERT"
+  max_length: 512
+  batch_size: 8
+  learning_rate: 0.00002
+  epochs: 5
+  patience: 3
+  dropout: 0.1
+  task: "ner"  # "ner" or "classification"
+
+# --- Model 6: Multimodal Fusion ---
+fusion:
+  architecture: "late_fusion"
+  hidden_dim: 256
+  num_heads: 4        # For attention-based fusion
+  dropout: 0.3
+  batch_size: 16
+  learning_rate: 0.0005
+  epochs: 30
+  patience: 5
+  missing_modality_strategy: "zero_impute"  # "zero_impute", "learned_default", "attention_gate"
+  uncertainty_method: "mc_dropout"          # "mc_dropout", "ensemble"
+  mc_samples: 10                           # Number of MC Dropout forward passes

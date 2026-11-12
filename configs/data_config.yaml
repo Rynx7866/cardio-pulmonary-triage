@@ -1,0 +1,64 @@
+# =============================================================================
+# Data Configuration
+# =============================================================================
+# Dataset paths, preprocessing settings, and split ratios.
+# =============================================================================
+
+# --- Dataset Paths ---
+paths:
+  project_root: "."
+  datasets: "datasets"
+  ecg_data: "datasets/ecg"
+  xray_data: "datasets/chest_xray"
+  clinical_data: "datasets/clinical"
+  trained_models: "trained_models"
+  reports: "reports"
+
+# --- Dataset Sources ---
+sources:
+  ptb_xl:
+    name: "PTB-XL"
+    url: "https://physionet.org/content/ptb-xl/"
+    version: "1.0.3"
+    license: "ODC-BY"
+    description: "Large publicly available electrocardiography dataset"
+    size_gb: 2.8
+  
+  nih_chest_xray:
+    name: "NIH ChestX-ray14"
+    url: "https://nihcc.app.box.com/v/ChestXray-Nihcc"
+    description: "112,120 frontal-view X-ray images with 14 disease labels"
+    size_gb: 45
+    note: "Very large - consider using a subset or downloading on Colab"
+
+# --- Train/Validation/Test Splits ---
+splits:
+  train: 0.70
+  validation: 0.15
+  test: 0.15
+  stratify: true
+  patient_level: true  # Split by patient ID, not by sample
+  seed: 42
+
+# --- Preprocessing ---
+preprocessing:
+  xray:
+    target_size: [224, 224]
+    normalize_mean: [0.485, 0.456, 0.406]  # ImageNet
+    normalize_std: [0.229, 0.224, 0.225]    # ImageNet
+    augmentation:
+      horizontal_flip: true
+      rotation_range: 15
+      brightness_range: [0.8, 1.2]
+      contrast_range: [0.8, 1.2]
+  
+  ecg:
+    sampling_rate: 100  # Hz (PTB-XL standard)
+    duration_seconds: 10
+    filter_lowcut: 0.5   # Hz - high-pass filter
+    filter_highcut: 45.0  # Hz - low-pass filter
+    normalize: true
+  
+  clinical:
+    handle_missing: "median"  # "median", "mean", "drop"
+    scale: "standard"         # "standard", "minmax", "robust"

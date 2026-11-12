@@ -1,0 +1,76 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Datasets - NEVER commit patient data
+datasets/
+*.csv
+*.tsv
+*.dat
+*.hea
+*.mat
+*.npy
+*.npz
+
+# Trained model weights - too large for Git
+trained_models/
+*.pth
+*.pt
+*.pkl
+*.joblib
+*.h5
+*.onnx
+*.bin
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables and credentials
+.env
+.env.local
+*.key
+*.pem
+*.crt
+
+# Logs
+*.log
+logs/
+
+# Reports (optional - may want to commit these)
+# reports/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# SHAP / matplotlib cache
+.matplotlib/
