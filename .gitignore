@@ -74,3 +74,8 @@ temp/
 
 # SHAP / matplotlib cache
 .matplotlib/
+
+ai_venv/
+__pycache__/
+*.pyc
+.pytest_cache/
