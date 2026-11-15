@@ -20,9 +20,9 @@ sources:
     name: "PTB-XL"
     url: "https://physionet.org/content/ptb-xl/"
     version: "1.0.3"
-    license: "ODC-BY"
+    license: "CC-BY-4.0"
     description: "Large publicly available electrocardiography dataset"
-    size_gb: 2.8
+    size_gb: 3.0
   
   nih_chest_xray:
     name: "NIH ChestX-ray14"

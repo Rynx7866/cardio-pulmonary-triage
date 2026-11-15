@@ -79,3 +79,6 @@ ai_venv/
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Training checkpoints
+checkpoints/

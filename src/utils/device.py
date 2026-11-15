@@ -39,7 +39,7 @@ def get_device(prefer_gpu: bool = True) -> torch.device:
     if prefer_gpu and torch.cuda.is_available():
         device = torch.device("cuda")
         gpu_name = torch.cuda.get_device_name(0)
-        vram_mb = torch.cuda.get_device_properties(0).total_mem / (1024 ** 2)
+        vram_mb = torch.cuda.get_device_properties(0).total_memory / (1024 ** 2)
         logger.info(f"Using GPU: {gpu_name} ({vram_mb:.0f} MB VRAM)")
     else:
         device = torch.device("cpu")
@@ -72,7 +72,7 @@ def get_device_info() -> dict:
     if torch.cuda.is_available():
         info["gpu_name"] = torch.cuda.get_device_name(0)
         info["gpu_vram_mb"] = round(
-            torch.cuda.get_device_properties(0).total_mem / (1024 ** 2), 1
+            torch.cuda.get_device_properties(0).total_memory / (1024 ** 2), 1
         )
 
     return info
